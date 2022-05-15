@@ -2,7 +2,27 @@
 {% load static %}
 {% block titulo %}
     <title>Início - Queimadas</title>
+    <link rel="stylesheet" href="{% static 'css/mapa.css' %}">
 {% endblock %}
 {% block conteudo %}
-
+    <div class="row">
+        <div class="col-md-4">
+            <form>
+              <div class="form-group">
+                <label for="formGroupExampleInput">Example label</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput2">Another label</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              </div>
+            </form>
+        </div>
+        <div id="map" class="col-md-8">
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'leaflet/leaflet.js' %}"></script>
+    <script src="{% static 'js/map.js' %}"></script>
 {% endblock %}
