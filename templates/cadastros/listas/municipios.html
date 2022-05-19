@@ -1,0 +1,61 @@
+{% extends '../../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block titulo %}
+    <title>{{ titulo }}</title>
+{% endblock %}
+{% block conteudo %}
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <h2>Lista de Municípios</h2>
+                <hr>
+            </div>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="text-center alert alert-{{ message.tags }}">
+                    {{ message|safe }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">UF</th>
+                        <th scope="col">Área em Km<sub>2</sub></th>
+                        {% if request.user.is_authenticated and request.user.is_superuser %}
+                        <th scope="col">Opções</th>
+                        {% else %}
+                        <th scope="col">Detalhar</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in object_list %}
+                    <tr>
+                        <td>{{ municipio.cd_mun }}</td>
+                        <td>{{ municipio.nm_mun }}</td>
+                        <td>{{ municipio.sigla }}</td>
+                        <td>{{ municipio.area_km2 }}</td>
+                        <td>
+                            <a href="{% url 'detalhar_municipio' municipio.pk %}" class="btn btn-success btn-sm"><i class="bi bi-cash-coin"></i> Dízimos</a>
+                            {% if request.user.is_authenticated and request.user.is_superuser %}
+                            <a href="{% url 'editar_municipio' municipio.pk %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Editar</a>
+                            <a href="{% url 'deletar_municipio' municipio.pk %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Excluir</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">Nenhum município registrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -23,3 +23,10 @@ class UsuarioForm(UserCreationForm):
             raise ValidationError("O nome de usuário {} já está em uso.".format(e))
 
         return e
+
+class UsuarioUpdateForm(UserCreationForm):
+    email = forms.EmailField(max_length=100)
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']

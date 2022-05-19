@@ -29,6 +29,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="bi bi-layout-text-sidebar"></i> Sobre</a>
                 </li>
+                {% if request.user.is_authenticated and request.user.is_superuser %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'listar_usuarios' %}"><i class="bi bi-layout-text-sidebar"></i> Usuários</a>
+                </li>
+                {% endif %}
               </ul>
               <div class="d-flex">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex">

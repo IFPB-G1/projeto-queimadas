@@ -1,0 +1,23 @@
+{% extends '../../base.html' %}
+{% load static %}
+{% block titulo %}
+    <title>Município - Tesouraria PIB</title>
+{% endblock %}
+{% block conteudo %}
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <h2>{{ object.nm_mun }} - {{ object.sigla }}
+                <a href="{% url 'editar_municipio' %}" class="btn btn-warning float-end"><i class="bi bi-pencil-square"></i> Editar</a>
+                </h2>
+                <hr>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <p class="h5">Código: {{ object.cd_mun }}</p>
+            <p class="h5">Nome: {{ object.nm_mun }}</p>
+            <p class="h5">Sigla: {{ object.sigla }}</p>
+            <p class="h5">Área em Km<sub>2</sub>: {{ object.area_km2 }}</p>
+        </div>
+    </div>
+{% endblock %}
