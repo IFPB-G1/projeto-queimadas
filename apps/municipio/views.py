@@ -6,8 +6,10 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin, messages
 
-class MunicipioCreate(SuccessMessageMixin, CreateView):
+class MunicipioCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = Municipio
+    fields = '__all__'
     success_message = 'Município cadastrado com sucesso!'
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("index")
@@ -25,12 +27,10 @@ class MunicipioCreate(SuccessMessageMixin, CreateView):
 class MunicipioUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = reverse_lazy('login')
     model = Municipio
+    fields = '__all__'
     success_message = 'Município atualizado com sucesso!'
     template_name = "cadastros/form.html"
     success_url = reverse_lazy('index')
-
-    def get_object(self, queryset=None):
-        return self.request.user
 
     def get_context_data(self, **kwargs):
         context = super(UpdateView, self).get_context_data(**kwargs)
@@ -44,12 +44,13 @@ class MunicipioUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return url
 
 class MunicipioDetail(DetailView):
-    login_url = reverse_lazy('login')
     model = Municipio
     template_name = "cadastros/detalhes/municipio.html"
 
-    def get_object(self, queryset=None):
-        return self.request.user
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context['titulo'] = 'Municípios - Queimadas'
+        return context
 
 class MunicipioDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = reverse_lazy('login')
@@ -58,12 +59,20 @@ class MunicipioDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = "cadastros/form-excluir.html"
     success_url = reverse_lazy("listar_municipios")
 
-class MunicipioList(LoginRequiredMixin, ListView):
-    login_url = reverse_lazy('login')
+    def get_context_data(self, **kwargs):
+        context = super(DeleteView, self).get_context_data(**kwargs)
+        context['titulo'] = 'Municípios - Queimadas'
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(MunicipioDelete, self).delete(request, *args, **kwargs)
+
+class MunicipioList(ListView):
     model = Municipio
     template_name = "cadastros/listas/municipios.html"
 
     def get_context_data(self, **kwargs):
-        context = super(MunicipioList, self).get_context_data(**kwargs)
+        context = super(ListView, self).get_context_data(**kwargs)
         context['titulo'] = 'Lista de Municípios - Queimadas'
         return context

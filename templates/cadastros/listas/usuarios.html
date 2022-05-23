@@ -20,7 +20,7 @@
             {% endfor %}
         {% endif %}
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped" id="tabela-listar">
                 <thead>
                     <tr>
                         <th scope="col">Nome</th>
@@ -44,4 +44,8 @@
             </table>
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/paginacao.js' %}"></script>
 {% endblock %}
