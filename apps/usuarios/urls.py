@@ -8,6 +8,7 @@ urlpatterns = [
     path('password/', PasswordChangeView.as_view(template_name='cadastros/mudar-senha.html'), name='password'),
     path('criar/usuario/', UsuarioCreate.as_view(), name='criar_usuario'),
     path('editar/usuario/', UsuarioUpdate.as_view(), name='editar_usuario'),
+    path('deletar/usuario/<int:pk>/', UsuarioDelete.as_view(), name='deletar_usuario'),
     path('listar/usuarios/', UsuarioList.as_view(), name='listar_usuarios'),
     path('detalhar/usuario/', UsuarioDetail.as_view(), name='detalhar_usuario'),
 ]

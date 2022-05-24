@@ -1,4 +1,4 @@
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.models import User
@@ -51,6 +51,22 @@ class UsuarioUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     def form_valid(self, form):
         url = super().form_valid(form)
         return url
+
+class UsuarioDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    login_url = reverse_lazy('login')
+    model = User
+    success_message = 'Usuário excluído com sucesso!'
+    template_name = "cadastros/form-excluir.html"
+    success_url = reverse_lazy("listar_usuarios")
+
+    def get_context_data(self, **kwargs):
+        context = super(DeleteView, self).get_context_data(**kwargs)
+        context['titulo'] = 'Municípios - Queimadas'
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(UsuarioDelete, self).delete(request, *args, **kwargs)
 
 class UsuarioDetail(DetailView):
     login_url = reverse_lazy('login')
